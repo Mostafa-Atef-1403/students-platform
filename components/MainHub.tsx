@@ -3,6 +3,11 @@
 import Image from "next/image";
 import { sidebar_links } from "@/constants/consts";
 import { useEffect, useState } from "react";
+import Dashboard from "./pages/Dashboard";
+import Subjects from "./pages/Subjects";
+import Attendance from "./pages/Attendance";
+import Quizzes from "./pages/Quizzes";
+import Profile from "./pages/Profile";
 
 function MainHub() {
   // components render
@@ -21,51 +26,65 @@ function MainHub() {
   console.log(folded);
 
   return (
-    <main className=" min-w-full flex">
+    <main className="w-full flex relative h-[5000px]">
       {/* sidebar */}
+      {/* ==> affect on folding */}
       <section
-        className="bg-green-50 min-h-[100vh] w-[250px] sm:w-[300px] p-2.5 group
-      
-      "
+        className={`fixed top-0 left-0 bg-green-50  p-2.5 shadow flex flex-col
+        h-[100vh] ${folded ? "w-[300px] sm:w-[330px]" : "w-[70px]"} 
+        transition-all duration-300 ease-in-out
+        `}
       >
-        {/* folding toggle icon */}
-        <div className="w-10 h-10 flexCenter rounded ml-auto">
-          <button className="w-full h-full">
-            <i
-              className={`
-                bi bi-layout-sidebar-inset text-3xl text-gray-900
+        {/* icon andd header and links */}
+        <div className="flex-1">
+          <div className="flex flex-col">
+            {/* fold icon */}
+            <button
+              className={`mb-3 w-10 h-10 flexCenter rounded ${folded ? "self-end" : "selfcenter"}`}
+              onClick={() => setFolded((prev) => !prev)}
+            >
+              <i
+                className={`
+                bi bi-layout-sidebar${!folded ? "" : "-inset"} text-3xl text-gray-900
               `}
-            ></i>
-          </button>
-        </div>
+              ></i>
+            </button>
 
-        {/* sidebar header */}
-        <div className="flex justify-between items-center my-5 relative">
-          {/* header text */}
-          <h3 className="text-gray-900">Students Hub</h3>
-          {/* header icon */}
-          <div className="">
-            <Image
-              src={"graduation-cap.svg"}
-              alt="cap"
-              width={40}
-              height={40}
-            />
+            {/* sidebar header */}
+            <div className="flex justify-between items-center relative border-b border-green-400 mb-2.5">
+              {/* header text */}
+              {/* ==> hide on folding */}
+              <h3 className={`text-gray-900 ${folded ? "block" : "hidden"}`}>
+                Students Hub
+              </h3>
+
+              {/* header icon */}
+              <div className="">
+                <Image
+                  src={"graduation-cap.svg"}
+                  alt="cap"
+                  width={40}
+                  height={40}
+                />
+              </div>
+            </div>
           </div>
 
-          {/* bottom border hover */}
-          <div className="absolute h-[1px] w-0 bg-gray-700 -bottom-1 left-1/2 -translate-x-1/2 group-hover:w-[90%] transition-all"></div>
-        </div>
+          {/* sidebar links */}
+          <div className="mt-1.5">
+            {/* ==> hide on folding */}
+            <p
+              className={`text-xs text-gray-600 font-bold mb-3 ${folded ? "block" : "hidden"}`}
+            >
+              Navigate
+            </p>
 
-        {/* sidebar links */}
-        <div>
-          <p className="text-xs text-gray-600 font-bold mb-3">Navigate</p>
-          <ul className="p-0 space-y-1">
-            {sidebar_links.map((link) => (
-              <li key={link.id}>
-                <button
-                  onClick={() => setComponent(link.link.toLowerCase())}
-                  className={`
+            <ul className="p-0 space-y-1">
+              {sidebar_links.map((link) => (
+                <li key={link.id} className="relative group">
+                  <button
+                    onClick={() => setComponent(link.link.toLowerCase())}
+                    className={`
                     w-full flex items-center gap-3 px-3 py-2
                     rounded-lg text-left transition-colors 
                     
@@ -75,25 +94,97 @@ function MainHub() {
                         : "text-gray-700 hover:bg-gray-100"
                     }
                   `}
-                  // added acive option for the viewed L(57 - 61)
-                >
-                  <i className={`${link.icon} text-lg`}></i>
-                  <span>{link.link}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
+                  >
+                    <i className={`${link.icon} text-lg`}></i>
+                    {/* ==> hide on folding */}
+                    <span className={`${folded ? "block" : "hidden"}`}>
+                      {link.link}
+                    </span>
+                  </button>
+
+                  {!folded && (
+                    <p
+                      className="hidden group-hover:block absolute left-full ml-3 top-1/2 -translate-y-1/2
+                        bg-green-600 text-white px-2 py-1 rounded text-sm whitespace-nowrap z-50
+                        before:content-[''] before:absolute before:right-full before:top-1/2 before:-translate-y-1/2
+                        before:border-8 before:border-transparent before:border-r-green-600"
+                    >
+                      {link.link}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* student name */}
+        <div className="flex justify-between gap-2.5 bg-green-100 p-1.5 border-t border-green-400">
+          {/* container for the shortcut and the name&email */}
+
+          {/* shortcut */}
+          <div
+            className="sm:font-bold font-medium h-9 w-9 sm:h-10 sm:w-10
+          sm:text-xl text-[15px] p-1
+          bg-green-400 flexCenter rounded-md"
+          >
+            MA
+          </div>
+
+          {/* ==> hide on folding */}
+          <div
+            className={`flex-1 flex items-center justify-between gap-1.5
+            ${folded ? "block" : "hidden"}`}
+          >
+            {/* name & email */}
+            <div className="leading-1">
+              <h5 className="text-[15px] sm:text-md">Mostafa Atef</h5>
+              <p className="text-gray-600 text-[15px] sm:text-md">
+                mostafa.atef@example.com
+              </p>
+            </div>
+
+            <button className="text-gray-900 hover:text-alert">
+              <i className="bi bi-box-arrow-left text-2xl"></i>
+            </button>
+          </div>
         </div>
       </section>
 
       {/* view component */}
-      <section className="flex-1 p-5 bg-white">
-        <h1 className="text-2xl font-bold capitalize">{component}</h1>
-        {/* Placeholder for component content */}
-        <div className="mt-5">Content for {component} will go here.</div>
+      <section
+        className={`flex-1 p-5 bg-white transition-all duration-300 overflow-hidden
+        ${folded ? "ml-[300px] sm:ml-[330px]" : "ml-[70px]"}`}
+      >
+        {component === "dashboard" && <Dashboard />}
+        {component === "subjects" && <Subjects />}
+        {component === "attendance" && <Attendance />}
+        {component === "quizzes" && <Quizzes />}
+        {component === "profile" && <Profile />}
       </section>
     </main>
   );
 }
 
 export default MainHub;
+
+/*
+  ===> sidebar structure.
+
+<section className="flex flex-col">  
+
+  <div> this div will have a flex-1
+
+    <div>  => flex col
+      <div>Toggle</div> => since its the first row, align it to the right always.
+      Header => the second row.
+    </div>     
+    
+    <div>Links</div>  
+
+  </div>
+
+  <div>Student</div> stick it and align to the bottom
+  
+</section>
+*/

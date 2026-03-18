@@ -36,9 +36,34 @@ export const studentsDB = [
 
 // sidebar nav links
 export const sidebar_links = [
-  { link: `Dashboard`, id: 1, icon: 'bi-house-door' },
-  { link: `Subjects`, id: 2, icon: 'bi-book' },
-  { link: `Quizzes`, id: 3, icon: 'bi-question-circle' },
-  { link: `Attendance`, id: 4, icon: 'bi-calendar-check' },
-  { link: `Profile`, id: 5, icon: 'bi-person' },
+  { id: 1, link: `Dashboard`, icon: "bi-house-door" },
+  { id: 2, link: `Subjects`, icon: "bi-book" },
+  { id: 3, link: `Quizzes`, icon: "bi-question-circle" },
+  { id: 4, link: `Attendance`, icon: "bi-calendar-check" },
+  { id: 5, link: `Profile`, icon: "bi-person" },
 ];
+
+// Components Headers
+
+export const headers = {
+  dashboard: {
+    h: "welcome ",
+    p: "View academic progress overview for this semester.",
+  },
+  subjects: {
+    h: "My Subjects",
+    p: "Current semester courses and progress.",
+  },
+  attendance: {
+    h: "Attendance",
+    p: "Track your class attendance across all subjects.",
+  },
+  quizzes: {
+    h: "Quizzes",
+    p: "View and manage your personal information",
+  },
+  profile: {
+    h: "My Profile",
+    p: "View and manage your personal information",
+  },
+};
