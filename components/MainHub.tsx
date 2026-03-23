@@ -26,7 +26,7 @@ function MainHub() {
   console.log(folded);
 
   return (
-    <main className="w-full flex relative h-[5000px]">
+    <main className="w-full flex relative h-1250">
       {/* sidebar */}
       {/* ==> affect on folding */}
       <section

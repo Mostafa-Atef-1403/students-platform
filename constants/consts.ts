@@ -67,3 +67,71 @@ export const headers = {
     p: "View and manage your personal information",
   },
 };
+
+// personal and academic info
+
+export const personalInfo = [
+  {
+    id: 1,
+    label: "Full Name",
+    value: "Mostafa Atef",
+    icon: "bi bi-person",
+  },
+  {
+    id: 2,
+    label: "Email",
+    value: "mostafa.atef@example.com",
+    icon: "bi bi-envelope-at-fill",
+  },
+  {
+    id: 3,
+    label: "Phone Number",
+    value: "01234567890",
+    icon: "bi bi-telephone",
+  },
+  {
+    id: 4,
+    label: "National Id",
+    value: "12345678901234",
+    icon: "bi bi-person-vcard",
+  },
+  {
+    id: 5,
+    label: "Education",
+    value: "Beni-suef",
+    icon: "bi bi-mortarboard",
+  },
+  {
+    id: 6,
+    label: "Year",
+    value: "Year 4",
+    icon: "bi bi-book",
+  },
+];
+
+export const academicInfo = [
+  {
+    id: 1,
+    label: "GPA",
+    icon: "bi bi-trophy text-green-500",
+    value: "3.00",
+  },
+  {
+    id: 2,
+    label: "CGPA",
+    icon: "bi bi-bar-chart",
+    value: "3.00",
+  },
+  {
+    id: 3,
+    label: "Total Hours",
+    icon: "bi bi-book",
+    value: "120",
+  },
+  {
+    id: 4,
+    label: "Completed subjects",
+    icon: "bi bi-mortarboard text-orange-400",
+    value: "21",
+  },
+];
