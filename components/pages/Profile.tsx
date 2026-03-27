@@ -1,8 +1,11 @@
+import { useState } from "react";
 import PageLayout from "../PageLayout";
 
 import { personalInfo, academicInfo } from "@/constants/consts";
 
 const Profile = () => {
+  const [changePassword, setChangePassword] = useState(false);
+
   return (
     <PageLayout page="profile">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -65,14 +68,6 @@ const Profile = () => {
                       {info.value}
                     </p>
                   </div>
-
-                  {/* edit button */}
-                  <button
-                    className="absolute top-1 right-4 hover:text-alert"
-                    onClick={() => {}}
-                  >
-                    <i className="bi bi-pencil-square"></i>
-                  </button>
                 </div>
               ))}
             </div>
@@ -123,24 +118,89 @@ const Profile = () => {
             <p>Update your password to keep your account secure.</p>
           </header>
 
-          {/* password changing ===> all this gonna be a one state, and when clicking change, it'll display a new structure. not now */}
-          <div className="flex items-center justify-between p-4 rounded-lg bg-gray-400">
-            <div className="flex items-center gap-3">
-              <i className="bi bi-lock text-2xl text-gray-900"></i>
-              <div>
-                <p className="font-medium">Password</p>
-                <p className="text-[15px] text-gray-800">Last changed: Never</p>
+          {!changePassword ? (
+            // {/* password state */}
+            <div
+              className={`
+          flex items-center justify-between p-4 rounded-lg bg-gray-400`}
+            >
+              <div className={`flex items-center gap-3`}>
+                <i className="bi bi-lock text-2xl text-gray-900"></i>
+                <div>
+                  <p className="font-medium">Password</p>
+                  <p className="text-[15px] text-gray-800">
+                    Last changed: Never
+                  </p>
+                </div>
+              </div>
+
+              {/* change password btn */}
+              <button
+                className="text-white bg-gray-700 rounded-xl
+              p-2.5 hover:bg-alert/70"
+                onClick={() => {
+                  setChangePassword(true);
+                }}
+              >
+                Change Password
+              </button>
+            </div>
+          ) : (
+            // {/* Changing Password */}
+            <div
+              className={`
+          flex items-center justify-between p-4 rounded-lg`}
+            >
+              {/* password inputs */}
+              <div className="flex flex-col gap-3">
+                <div className="grid gap-2.5">
+                  <label htmlFor="current">Current Password:</label>
+                  <input
+                    type="text"
+                    id="current"
+                    className="bg-gray-100 border-1 focus:border-green-500 outline-0"
+                  />
+                </div>
+                <div className="grid gap-2.5">
+                  <label htmlFor="new">New Password:</label>
+                  <input
+                    type="text"
+                    id="new"
+                    className="bg-gray-100 border-1 focus:border-green-500 outline-0"
+                  />
+                </div>
+                <div className="grid gap-2.5">
+                  <label htmlFor="confirm">Confirm Password:</label>
+                  <input
+                    type="text"
+                    id="confirm"
+                    className="bg-gray-100 border-1 focus:border-green-500 outline-0"
+                  />
+                </div>
+              </div>
+
+              {/* password btns */}
+              <div className="flex gap-3.5 self-end">
+                {/* save btn */}
+                <button
+                  className="text-white bg-gray-700 rounded-xl
+              p-2.5"
+                >
+                  Save
+                </button>
+                {/* cancel btn */}
+                <button
+                  className="text-gray-800 bg-gray-200 rounded-xl
+              p-2.5"
+                  onClick={() => {
+                    setChangePassword(false);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
-
-            <button
-              className="text-white bg-gray-700 rounded-xl
-              p-2.5 hover:bg-alert/70"
-              onClick={() => {}}
-            >
-              Change Password
-            </button>
-          </div>
+          )}
         </section>
       </div>
     </PageLayout>
