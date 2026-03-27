@@ -224,7 +224,7 @@ function MainHub() {
 
       {/* view component */}
       <section
-        className={`flex-1 p-5 bg-white transition-all duration-300 overflow-hidden
+        className={`flex-1 p-4 bg-white transition-all duration-300 overflow-hidden
         mt-[70px] sm:mt-0 sm:ml-[70px]`}
       >
         {component === "dashboard" && <Dashboard />}
