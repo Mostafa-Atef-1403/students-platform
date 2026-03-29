@@ -73,14 +73,18 @@ const Quizzes = () => {
             className="items-center justify-center rounded-md
           bg-gray-400 p-1 text-gray-800 grid gap-2.5 w-full grid-cols-4 mb-6"
           >
-            <div className="cursor-pointer font-medium bg-gray-50 p-1.5">
+            <div className="text-center cursor-pointer font-medium bg-gray-50 p-1.5">
               Available (1)
             </div>
-            <div className="cursor-pointer font-medium p-1.5">Upcoming (4)</div>
-            <div className="cursor-pointer font-medium p-1.5">
+            <div className="text-center cursor-pointer font-medium p-1.5">
+              Upcoming (4)
+            </div>
+            <div className="text-center cursor-pointer font-medium p-1.5">
               Completed (1)
             </div>
-            <div className="cursor-pointer font-medium p-1.5">Missed (1)</div>
+            <div className="text-center cursor-pointer font-medium p-1.5">
+              Missed (1)
+            </div>
           </nav>
 
           {/* quizzes cards */}
