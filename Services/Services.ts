@@ -1,4 +1,4 @@
-const BASE_URL = "http://examify.runasp.net";
+const BASE_URL = "https://examify.runasp.net";
 
 export async function loginUser(email: string, password: string) {
   const response = await fetch(`${BASE_URL}/api/auth/login`, {
