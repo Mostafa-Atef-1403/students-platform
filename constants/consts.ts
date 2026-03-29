@@ -135,3 +135,24 @@ export const academicInfo = [
     value: "21",
   },
 ];
+
+// exams&quizzes
+
+export const quizzesPage = [
+  {
+    id: 1,
+    Available: { title: "", subject: "", dur: "", que: "", date: "" },
+  },
+  {
+    id: 2,
+    Upcoming: { title: "", subject: "", dur: "", que: "", date: "" },
+  },
+  {
+    id: 3,
+    Completed: { title: "", subject: "", dur: "", que: "", date: "" },
+  },
+  {
+    id: 4,
+    Missed: { title: "", subject: "", dur: "", que: "", date: "" },
+  },
+];

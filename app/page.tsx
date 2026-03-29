@@ -1,11 +1,9 @@
-import LoginPage from "@/components/LoginPage";
-import MainHub from "@/components/MainHub";
+import LoginPage from "@/components/student/LoginPage";
 
 export default function Home() {
   return (
     <>
-      {/* <LoginPage /> */}
-      <MainHub />
+      <LoginPage />
     </>
   );
 }
