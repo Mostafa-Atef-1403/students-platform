@@ -43,6 +43,14 @@ export const sidebar_links = [
   { id: 5, link: `Profile`, icon: "bi-person" },
 ];
 
+export const instructor_links = [
+  { id: 1, link: `Dashboard`, icon: "bi-house-door" },
+  { id: 2, link: `Subjects`, icon: "bi-book" },
+  { id: 3, link: `Quizzes`, icon: "bi-question-circle" },
+  { id: 4, link: `Attendance`, icon: "bi-calendar-check" },
+  { id: 5, link: `Profile`, icon: "bi-person" },
+];
+
 // Components Headers
 
 export const headers = {
@@ -141,18 +149,35 @@ export const academicInfo = [
 export const quizzesPage = [
   {
     id: 1,
-    Available: { title: "", subject: "", dur: "", que: "", date: "" },
+    Available: {
+      icon: "bi bi-play text-green-500",
+      quizzes: [
+        {
+          id: 1,
+          title: "Network Protocols Quiz",
+          subject: "",
+          duration: "",
+          questions: "",
+          // situtional props
+          date: "Jan 31, 8:00 AM",
+          state: "Available",
+        },
+      ],
+    },
   },
   {
-    id: 2,
-    Upcoming: { title: "", subject: "", dur: "", que: "", date: "" },
+    Upcoming: { id: 2, icon: "bi bi-calendar text-gray-500", quizzes: [{}] },
   },
   {
-    id: 3,
-    Completed: { title: "", subject: "", dur: "", que: "", date: "" },
+    Completed: {
+      id: 3,
+      icon: "bi bi-check-circle text-gray-500",
+      quizzes: [{}],
+    },
   },
   {
-    id: 4,
-    Missed: { title: "", subject: "", dur: "", que: "", date: "" },
+    Missed: { id: 4, icon: "bi bi-x-circle text-alert", quizzes: [{}] },
   },
 ];
+
+//

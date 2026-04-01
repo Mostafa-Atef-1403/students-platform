@@ -20,15 +20,12 @@ const LoginPage = () => {
     try {
       const data = await loginUser(email, password);
 
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("name", data.name);
-        localStorage.setItem("role", data.role);
-        localStorage.setItem("email", data.email);
-
-        router.push("/pages");
-      } else {
-        setError(data.message);
+      if (data.role === "Student") {
+        router.push("/pages/student");
+      } else if (data.role === "Instructor") {
+        router.push("/pages/instructor");
+      } else if (data.role === "Admin") {
+        router.push("/pages/admin");
       }
     } catch (err) {
       setError("Something went wrong. Try again.");

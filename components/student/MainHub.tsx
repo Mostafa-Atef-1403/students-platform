@@ -32,7 +32,7 @@ function MainHub() {
         <div className="flex items-center gap-2 flex-1">
           <div className="h-10 w-10 flexCenter">
             <Image
-              src={"graduation-cap.svg"}
+              src={"/graduation-cap-svgrepo-com.svg"}
               alt="cap"
               width={40}
               height={40}
@@ -128,7 +128,7 @@ function MainHub() {
               {/* header icon */}
               <div className="">
                 <Image
-                  src={"graduation-cap.svg"}
+                  src={"/graduation-cap-svgrepo-com.svg"}
                   alt="cap"
                   width={40}
                   height={40}
