@@ -2,7 +2,7 @@
 
 > A multi-role academic platform with real-time AI proctoring, built as a university capstone project.
 
-🔗 **Live Demo:** [your-vercel-link-here](https://your-vercel-link-here)  
+🔗 **Live Demo:** [Students Platform](https://students-platform-ten.vercel.app/)  
 📡 **Backend API:** [examify.runasp.net/swagger](https://examify.runasp.net/swagger/index.html)
 
 ---
