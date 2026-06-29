@@ -1,73 +1,92 @@
-# Welcome to your Lovable project
+# Examify — AI-Proctored Student Exam Platform
 
-## Project info
+> A multi-role academic platform with real-time AI proctoring, built as a university capstone project.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🔗 **Live Demo:** [your-vercel-link-here](https://your-vercel-link-here)  
+📡 **Backend API:** [examify.runasp.net/swagger](https://examify.runasp.net/swagger/index.html)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## What is Examify?
 
-**Use Lovable**
+Examify is a full-stack exam management and proctoring platform built for three roles:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- 🎓 **Student** — Dashboard, enrolled subjects, quizzes with live AI camera monitoring
+- 👨‍🏫 **Instructor** — Course management, quiz creation, student submissions, proctoring reports
+- 🛡️ **Admin** — User management, department and course control, system stats
 
-Changes made via Lovable will be committed automatically to this repo.
+The platform integrates an AI proctoring system that monitors students via webcam during exams, detecting violations such as phone usage, extra persons, gaze deviation, and face absence — generating per-session text reports and per-exam Excel reports for instructors.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, TypeScript, Vite |
+| UI | Tailwind CSS, shadcn/ui, Radix UI |
+| Routing | React Router v6 |
+| Forms | React Hook Form, Zod |
+| Charts | Recharts |
+| Backend | ASP.NET Core (REST API) |
+| AI Service | FastAPI + Computer Vision models |
+| Mobile | Flutter |
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Features
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- 🔐 JWT-based authentication with role-based routing (Student / Instructor / Admin)
+- 📷 Live webcam proctoring during exams — frames sent to AI service every 300ms
+- 🤖 AI violation detection: phone, extra person, gaze, no face
+- 📊 Per-student text reports and per-exam Excel reports with evidence images
+- 📝 Quiz engine with timer, auto-submit, and score calculation
+- 📈 Instructor dashboard with submission tracking and proctoring data
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Team
+
+| Role | Count |
+|---|---|
+| Frontend (React) | 1 |
+| Backend (ASP.NET) | 1 |
+| AI Engineers | 3 |
+| Mobile (Flutter) | 1 |
+
+---
+
+## Getting Started
+
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+> The app runs on `http://localhost:8080` by default.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Environment
+No `.env` needed — the backend URL is configured directly in `src/services/proctoring.ts` and `src/services/api.ts`.
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+src/
+├── pages/
+│   ├── instructor/     # Instructor views
+│   ├── admin/          # Admin views
+│   └── ...             # Student views
+├── services/
+│   ├── api.ts          # Auth endpoints
+│   └── proctoring.ts   # Proctoring + reports endpoints
+├── data/               # Static mock data
+├── components/         # Shared UI components
+└── lib/                # Utilities and exam submission store
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## API
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Full API documentation available at:  
+👉 [examify.runasp.net/swagger](https://examify.runasp.net/swagger/index.html)
