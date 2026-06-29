@@ -73,16 +73,27 @@ No `.env` needed — the backend URL is configured directly in `src/services/pro
 ## Project Structure
 
 src/
+
 ├── pages/
+
 │   ├── instructor/     # Instructor views
+
 │   ├── admin/          # Admin views
+
 │   └── ...             # Student views
+
 ├── services/
+
 │   ├── api.ts          # Auth endpoints
+
 │   └── proctoring.ts   # Proctoring + reports endpoints
+
 ├── data/               # Static mock data
+
 ├── components/         # Shared UI components
+
 └── lib/                # Utilities and exam submission store
+
 
 ---
 
