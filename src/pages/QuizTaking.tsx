@@ -28,7 +28,9 @@ import {
 import { quizzes } from "@/data/mockData";
 import { getQuestionsForQuiz, type QuizQuestion } from "@/data/quizQuestions";
 import {
-  sendProctoringFrame,
+  openProctoringSocket,
+  sendFrameOverSocket,
+  closeProctoringSocket,
   startExamSession,
   submitExamSession,
   type ProctoringResult,
@@ -101,6 +103,28 @@ const QuizTaking = () => {
   useEffect(() => {
     if (phase !== "exam" || !cameraStream || !quiz) return;
 
+    const studentId = parseInt(localStorage.getItem("userId") || "0", 10);
+
+    // Open one persistent WebSocket connection for the whole exam
+    openProctoringSocket(studentId, BACKEND_EXAM_ID, (result) => {
+      console.log("[Proctoring WS] Result received:", result);
+      setProctoring(result);
+      if (
+        result.cheating ||
+        result.phone_detection?.violation ||
+        result.person_detection?.violation ||
+        result.eye_tracking?.violation ||
+        result.head_pose?.violation ||
+        result.face_detection?.violation
+      ) {
+        toast({
+          title: "⚠️ Violation Detected",
+          description: result.current_event || "Suspicious activity detected",
+          variant: "destructive",
+        });
+      }
+    });
+
     const captureAndSend = async () => {
       const video = videoRef.current;
       if (!video || video.readyState < 2) return;
@@ -108,7 +132,6 @@ const QuizTaking = () => {
       if (!canvasRef.current)
         canvasRef.current = document.createElement("canvas");
       const canvas = canvasRef.current;
-      // Use full native resolution so the AI models get a proper image
       canvas.width = video.videoWidth || 640;
       canvas.height = video.videoHeight || 480;
       const ctx = canvas.getContext("2d");
@@ -120,19 +143,16 @@ const QuizTaking = () => {
       );
       if (!blob) return;
 
-      const studentId = parseInt(localStorage.getItem("userId") || "0", 10);
-      const result = await sendProctoringFrame(
-        blob,
-        studentId,
-        BACKEND_EXAM_ID,
-      );
-      if (result) setProctoring(result);
+      sendFrameOverSocket(blob);
     };
 
-    // Fire once immediately, then every .3 seconds
     captureAndSend();
-    const interval = setInterval(captureAndSend, 300);
-    return () => clearInterval(interval);
+    const interval = setInterval(captureAndSend, 1000);
+
+    return () => {
+      clearInterval(interval);
+      closeProctoringSocket();
+    };
   }, [phase, cameraStream, quiz, BACKEND_EXAM_ID]);
 
   const requestPermissions = async () => {

@@ -140,28 +140,98 @@ function authHeaders(): HeadersInit {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-export async function sendProctoringFrame(
-  blob: Blob,
+// OLD WAY OF PROCTORING
+
+// export async function sendProctoringFrame(
+//   blob: Blob,
+//   studentId: number,
+//   examId: number,
+// ): Promise<ProctoringResult | null> {
+//   try {
+//     const formData = new FormData();
+//     formData.append("Frame", blob, "frame.jpg");
+//     formData.append("StudentId", String(studentId));
+//     formData.append("ExamId", String(examId));
+
+//     const res = await fetch(`${BASE_URL}/api/Proctoring/frame`, {
+//       method: "POST",
+//       headers: authHeaders(),
+//       body: formData,
+//     });
+//     if (!res.ok) return null;
+//     return (await res.json()) as ProctoringResult;
+//   } catch {
+//     return null;
+//   }
+// }
+
+// WEBSOCKET PROCTORING
+
+// ── WebSocket Proctoring ──────────────────────────────────────────────────────
+
+const WS_URL = "wss://examify.runasp.net/ws/proctoring/frame";
+
+let ws: WebSocket | null = null;
+let wsReady = false;
+let pendingResultCallback: ((result: ProctoringResult) => void) | null = null;
+
+export function openProctoringSocket(
   studentId: number,
   examId: number,
-): Promise<ProctoringResult | null> {
-  try {
-    const formData = new FormData();
-    formData.append("Frame", blob, "frame.jpg");
-    formData.append("StudentId", String(studentId));
-    formData.append("ExamId", String(examId));
-
-    const res = await fetch(`${BASE_URL}/api/Proctoring/frame`, {
-      method: "POST",
-      headers: authHeaders(),
-      body: formData,
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as ProctoringResult;
-  } catch {
-    return null;
+  onResult: (result: ProctoringResult) => void,
+): void {
+  if (
+    ws &&
+    (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)
+  ) {
+    pendingResultCallback = onResult;
+    return;
   }
+
+  const token = localStorage.getItem("token") ?? "";
+  const url = `${WS_URL}?token=${token}&student_id=${studentId}&exam_id=${examId}`;
+  ws = new WebSocket(url);
+  wsReady = false;
+  pendingResultCallback = onResult;
+
+  ws.onopen = () => {
+    wsReady = true;
+    console.log("[Proctoring WS] Connected");
+  };
+
+  ws.onmessage = (event) => {
+    try {
+      const result = JSON.parse(event.data) as ProctoringResult;
+      pendingResultCallback?.(result);
+    } catch {
+      // ignore non-JSON messages
+    }
+  };
+
+  ws.onerror = (e) => console.warn("[Proctoring WS] Error", e);
+
+  ws.onclose = () => {
+    wsReady = false;
+    ws = null;
+    console.log("[Proctoring WS] Closed");
+  };
 }
+
+export function sendFrameOverSocket(blob: Blob): void {
+  if (!ws || !wsReady) {
+    console.warn("[Proctoring WS] Not ready, skipping frame");
+    return;
+  }
+  ws.send(blob);
+}
+
+export function closeProctoringSocket(): void {
+  ws?.close();
+  ws = null;
+  wsReady = false;
+}
+
+// =========================================
 
 export async function fetchExamReportText(
   examId: number,
