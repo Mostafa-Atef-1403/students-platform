@@ -155,20 +155,76 @@ const QuizTaking = () => {
     };
   }, [phase, cameraStream, quiz, BACKEND_EXAM_ID]);
 
+  // Prevent Copy | Cut and Paste
+  useEffect(() => {
+    if (phase !== "exam") return;
+    const block = (e: Event) => e.preventDefault();
+    document.addEventListener("copy", block);
+    document.addEventListener("cut", block);
+    document.addEventListener("paste", block);
+    document.addEventListener("contextmenu", block);
+
+    document.body.style.userSelect = "none";
+    document.body.style.webkitUserSelect = "none";
+    return () => {
+      document.removeEventListener("copy", block);
+      document.removeEventListener("cut", block);
+      document.removeEventListener("paste", block);
+      document.removeEventListener("contextmenu", block);
+
+      document.body.style.userSelect = "";
+      document.body.style.webkitUserSelect = "";
+    };
+  }, [phase]);
+
+  // for Tab Switching
+  useEffect(() => {
+    if (phase !== "exam") return;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        toast({
+          title: "⚠️ Warning",
+          description:
+            "You switched tabs! This has been recorded as a violation.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [phase, toast]);
+
   const requestPermissions = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          frameRate: { ideal: 30 },
+          facingMode: "user",
+        },
         audio: true,
       });
       setCameraStream(stream);
 
-      // Start backend exam session so proctoring frames are accepted
-      const sessionId = await startExamSession(BACKEND_EXAM_ID);
-      if (sessionId) {
-        setExamStudentId(sessionId);
+      // Request fullscreen
+      try {
+        await document.documentElement.requestFullscreen();
+      } catch {
+        toast({
+          title: "Fullscreen required",
+          description: "You must allow fullscreen to start the exam.",
+          variant: "destructive",
+        });
+        stream.getTracks().forEach((t) => t.stop());
+        return; // block exam start if fullscreen denied
       }
 
+      const sessionId = await startExamSession(BACKEND_EXAM_ID);
+      if (sessionId) setExamStudentId(sessionId);
       setPhase("exam");
       toast({
         title: "Permissions granted",

@@ -70,7 +70,23 @@ const StudentReportModal = ({
             </div>
           ) : (
             <pre className="text-xs font-mono whitespace-pre-wrap break-words text-foreground">
-              {text || "No report available."}
+              {(text || "No report available.").split("\n").map((line, i) => {
+                if (line.trim().startsWith("https://")) {
+                  return (
+                    <div key={i}>
+                      <a
+                        href={line.trim()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline hover:text-blue-700"
+                      >
+                        {line.trim()}
+                      </a>
+                    </div>
+                  );
+                }
+                return <div key={i}>{line || "\u00A0"}</div>;
+              })}
             </pre>
           )}
         </div>
